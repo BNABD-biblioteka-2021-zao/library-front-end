@@ -15,7 +15,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'main',
