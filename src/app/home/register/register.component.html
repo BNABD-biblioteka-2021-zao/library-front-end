@@ -1,0 +1,21 @@
+<div id="content">
+  <form [formGroup]="form" (submit)="submit()">
+    <div id="login" class="shadow p-3 mb-5 bg-white rounded">
+
+      <h5 id="title">Zarejestruj się i utwórz konto</h5>
+
+      <input formControlName="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Podaj adres email" required>
+
+      <input formControlName="name" type="text" class="form-control" id="name" placeholder="Wprowadź imię i nazwisko" required>
+
+      <input formControlName="password" type="password" class="form-control" id="password" placeholder="Utwórz hasło" required>
+
+      <div class="col text-center">
+        <button id="botton" type="submit" class="btn btn-primary">Zarejestruj się</button>
+      </div>
+      <hr/>
+      <a routerLink="/login">Już posiadasz konto? Zaloguj się</a>
+    </div>
+  </form>
+</div>
+

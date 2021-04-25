@@ -1,0 +1,20 @@
+<form [formGroup]="form">
+
+  <div id="login" class="shadow p-3 mb-5 bg-white rounded">
+
+    <h5 id="title">Zaloguj do Biblioteki</h5>
+
+    <input formControlName="username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Podaj email" required>
+
+    <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Podaj hasło" required>
+
+    <div class="col text-center">
+      <button (click)="onLogin()" id="botton" type="button" class="btn btn-success">Zaloguj</button>
+    </div>
+
+  </div>
+</form>
+
+
+
+
