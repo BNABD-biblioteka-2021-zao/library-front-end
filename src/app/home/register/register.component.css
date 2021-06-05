@@ -1,0 +1,32 @@
+#login {
+  height: 400px;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}
+#email{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+#name{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+#password{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+#botton{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  width: 100%;
+}
+#title{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
