@@ -9,6 +9,8 @@ import { RegisterComponent } from './home/register/register.component';
 import { MainScreenComponent } from './home/main-screen/main-screen.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
+import { AuthModule } from "./security/auth.module";
+
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { HttpClientModule } from "@angular/common/http";
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
