@@ -1,0 +1,13 @@
+.main_content {
+  height: 400px;
+  width: 400px;
+}
+
+.title{
+  width: 350px;
+}
+
+.button_add{
+  margin-top: 80px;
+  margin-left: 250px;
+}
