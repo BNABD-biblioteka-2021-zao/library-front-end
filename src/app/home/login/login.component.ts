@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  baseUrl =  ' ';
+  baseUrl =  'http://localhost:8092/api/v1/auth';
   form: FormGroup;
   userP: UserPrincipal =  { } as UserPrincipal;
 
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
     console.log(this.form.getRawValue());
-    this.http.post(this.baseUrl, this.form.getRawValue())
+    this.http.post(this.baseUrl + '/login', this.form.getRawValue(), )
       .subscribe(response => {
         console.log(response);
         this.userP = (response as UserPrincipal);
