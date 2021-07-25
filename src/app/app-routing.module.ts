@@ -5,6 +5,8 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './home/register/register.component';
 import { LoginComponent } from './home/login/login.component';
 import { MainScreenComponent } from './home/main-screen/main-screen.component';
+import {AuthGuard} from './security/guards/auth.guard';
+import {MainGuard} from './security/guards/main.guard';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -12,6 +14,7 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
@@ -20,6 +23,7 @@ const appRoutes: Routes = [
   {
     path: 'main',
     component: MainScreenComponent,
+    canActivate:  [MainGuard],
   },
   {path: 'test', redirectTo: '/main'},
 
