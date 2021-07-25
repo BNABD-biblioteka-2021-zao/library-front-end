@@ -62,6 +62,8 @@ import { OverlayModule} from '@angular/cdk/overlay';
 import {HttpClientModule} from '@angular/common/http';
 import {AddBookComponent} from './home/main-screen/add-book/add-book.component';
 import { AddCopyComponent } from './home/main-screen/add-copy/add-copy.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthModule } from "./security/auth.module";
 
 
 @NgModule({
@@ -144,6 +146,7 @@ import { AddCopyComponent } from './home/main-screen/add-copy/add-copy.component
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -21,7 +21,7 @@ export class AuthService {
       .pipe(
         tap(tokens => this.doLoginUser(user.username, tokens)),
         mapTo(true),
-        catchError(error => {
+        catchError(error => { 
           console.log('catch');
           alert(error.error);
           return of(false);
@@ -45,7 +45,7 @@ export class AuthService {
     this.doLogoutUser();
   }
 
-  isLoggedIn(): boolean {
+  isLoggedIn():boolean {
     // this.http.get<string>(config.apiSecurityUrl + '/testA')
     // .subscribe(response => {
     //   console.log("ODP: " + response);
@@ -64,6 +64,7 @@ export class AuthService {
     return !!this.getJwtToken();
   }
 
+
   // tslint:disable-next-line:typedef
   refreshToken() {
     return this.http.post<any>(`${config.apiSecurityUrl}/oauth/access_token`, {
@@ -73,6 +74,7 @@ export class AuthService {
       this.storeJwtToken(tokens.access_token);
     }));
   }
+
 
   // tslint:disable-next-line:typedef
   getJwtToken() {
