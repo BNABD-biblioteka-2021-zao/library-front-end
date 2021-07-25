@@ -10,8 +10,8 @@ import { Tokens } from '../models/tokens';
 })
 export class AuthService {
 
-  private readonly JWT_TOKEN = 'access_token';
-  private readonly REFRESH_TOKEN = 'refresh_token';
+  private readonly JWT_TOKEN = 'accessToken';
+  private readonly REFRESH_TOKEN = 'refreshToken';
   private loggedUser!: string;
 
   constructor(private http: HttpClient) {}
@@ -21,7 +21,7 @@ export class AuthService {
       .pipe(
         tap(tokens => this.doLoginUser(user.username, tokens)),
         mapTo(true),
-        catchError(error => { 
+        catchError(error => {
           console.log('catch');
           alert(error.error);
           return of(false);
@@ -67,11 +67,11 @@ export class AuthService {
 
   // tslint:disable-next-line:typedef
   refreshToken() {
-    return this.http.post<any>(`${config.apiSecurityUrl }/oauth/access_token`, {
-      'grant_type' : 'refresh_token',
-      'refresh_token' : this.getRefreshToken()
+    return this.http.post<any>(`${config.apiSecurityUrl }/refresh-token`, {
+      'grant_type' : 'refreshToken',
+      'refreshToken' : this.getRefreshToken()
     }).pipe(tap((tokens: Tokens) => {
-      this.storeJwtToken(tokens.access_token);
+      this.storeJwtToken(tokens.accessToken);
     }));
   }
 
@@ -105,8 +105,8 @@ export class AuthService {
 
   // tslint:disable-next-line:typedef
   private storeTokens(tokens: Tokens) {
-    localStorage.setItem(this.JWT_TOKEN, tokens.access_token);
-    localStorage.setItem(this.REFRESH_TOKEN, tokens.refresh_token);
+    localStorage.setItem(this.JWT_TOKEN, tokens.accessToken);
+    localStorage.setItem(this.REFRESH_TOKEN, tokens.refreshToken);
   }
 
   // tslint:disable-next-line:typedef

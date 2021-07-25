@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpRequest} from '@angular/common/http';
 import {Router} from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   form: FormGroup;
-  baseUrl =  '';
+  baseUrl =  'localhost:8092/api/v1/auth/register';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,6 +29,9 @@ export class RegisterComponent implements OnInit {
 
   submit(): void {
     console.log(this.form.getRawValue());
+
+    var req:HttpRequest = this.http.post(this.baseUrl, this.form.getRawValue());
+    console.log(req);
 
     this.http.post(this.baseUrl, this.form.getRawValue())
       .subscribe(response => {
