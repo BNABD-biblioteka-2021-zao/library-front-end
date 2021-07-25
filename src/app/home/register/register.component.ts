@@ -30,9 +30,6 @@ export class RegisterComponent implements OnInit {
   submit(): void {
     console.log(this.form.getRawValue());
 
-    var req:HttpRequest = this.http.post(this.baseUrl, this.form.getRawValue());
-    console.log(req);
-
     this.http.post(this.baseUrl, this.form.getRawValue())
       .subscribe(response => {
         console.log(response);
