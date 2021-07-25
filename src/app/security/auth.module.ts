@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//import { LoginComponent } from '../home/login/login.component';
+import { LoginComponent } from '../home/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import { TokenInterceptor } from './token.interceptor';
 
 @NgModule({
   declarations: [
-    //LoginComponent
+    LoginComponent
   ],
   providers: [
     AuthGuard,

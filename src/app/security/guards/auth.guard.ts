@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) { }
 
+  // tslint:disable-next-line:typedef
   canActivate() {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/main']);

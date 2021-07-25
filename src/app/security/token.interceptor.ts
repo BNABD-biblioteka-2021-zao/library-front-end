@@ -18,7 +18,7 @@ export class TokenInterceptor implements HttpInterceptor {
     if (this.authService.getJwtToken()) {
       this.token =  this.authService.getJwtToken();
       if (this.token == null){
-        this.token = "";
+        this.token = '';
       }
       request = this.addToken(request, this.token);
     }
@@ -32,6 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }));
   }
 
+  // tslint:disable-next-line:typedef
   private addToken(request: HttpRequest<any>, token: string) {
     return request.clone({
       setHeaders: {
@@ -40,6 +41,7 @@ export class TokenInterceptor implements HttpInterceptor {
     });
   }
 
+  // tslint:disable-next-line:typedef
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;

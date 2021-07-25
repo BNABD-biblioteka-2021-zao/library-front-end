@@ -21,12 +21,14 @@ export class AuthService {
       .pipe(
         tap(tokens => this.doLoginUser(user.username, tokens)),
         mapTo(true),
-        catchError(error => {
+        catchError(error => { 
+          console.log('catch');
           alert(error.error);
           return of(false);
         }));
   }
 
+  // tslint:disable-next-line:typedef
   logout() {
     // !nie działa /logout  ??
     // return this.http.post<any>(`${config.apiSecurityUrl}/logout`, {
@@ -62,42 +64,52 @@ export class AuthService {
     return !!this.getJwtToken();
   }
 
+
+  // tslint:disable-next-line:typedef
   refreshToken() {
-    return this.http.post<any>(`${config.apiSecurityUrl}/refresh-token`, {
-      //"grant_type": "refresh_token",
-      "refreshToken": this.getRefreshToken()
+    return this.http.post<any>(`${config.apiSecurityUrl}/oauth/access_token`, {
+      'grant_type' : 'refresh_token',
+      'refresh_token' : this.getRefreshToken()
     }).pipe(tap((tokens: Tokens) => {
       this.storeJwtToken(tokens.access_token);
     }));
   }
 
+
+  // tslint:disable-next-line:typedef
   getJwtToken() {
     return localStorage.getItem(this.JWT_TOKEN);
   }
 
+  // tslint:disable-next-line:typedef
   private doLoginUser(username: string, tokens: Tokens) {
     this.loggedUser = username;
     this.storeTokens(tokens);
   }
 
+  // tslint:disable-next-line:typedef
   private doLogoutUser() {
     this.loggedUser = '';
     this.removeTokens();
   }
 
+  // tslint:disable-next-line:typedef
   private getRefreshToken() {
     return localStorage.getItem(this.REFRESH_TOKEN);
   }
 
+  // tslint:disable-next-line:typedef
   private storeJwtToken(jwt: string) {
     localStorage.setItem(this.JWT_TOKEN, jwt);
   }
 
+  // tslint:disable-next-line:typedef
   private storeTokens(tokens: Tokens) {
     localStorage.setItem(this.JWT_TOKEN, tokens.access_token);
     localStorage.setItem(this.REFRESH_TOKEN, tokens.refresh_token);
   }
 
+  // tslint:disable-next-line:typedef
   private removeTokens() {
     localStorage.removeItem(this.JWT_TOKEN);
     localStorage.removeItem(this.REFRESH_TOKEN);

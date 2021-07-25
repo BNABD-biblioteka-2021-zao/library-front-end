@@ -8,7 +8,7 @@ import { RegisterComponent } from './home/register/register.component';
 import { LoginComponent } from './home/login/login.component';
 import { MainScreenComponent } from './home/main-screen/main-screen.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { AuthModule } from './security/auth.module';
+import { AuthModule } from './security/auth.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -70,7 +70,7 @@ import { AuthModule } from "./security/auth.module";
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent,
+    // LoginComponent,
     RegisterComponent,
     MainScreenComponent,
     AddBookComponent,
@@ -88,7 +88,7 @@ import { AuthModule } from "./security/auth.module";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    // AuthModule,
+    AuthModule,
     MatMenuModule,
     MatDialogModule,
     BrowserAnimationsModule,
