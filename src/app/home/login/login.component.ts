@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
 /*
   onLogin(): void {
     console.log(this.form.getRawValue());
-    this.http.post(this.baseUrl, this.form.getRawValue())
+    this.http.post(this.baseUrl + '/login', this.form.getRawValue(), )
       .subscribe(response => {
         console.log(response);
         this.userP = (response as UserPrincipal);

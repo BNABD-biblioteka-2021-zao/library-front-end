@@ -65,6 +65,7 @@ import { AddCopyComponent } from './home/main-screen/add-copy/add-copy.component
 import { AddLibrarianComponent } from './home/main-screen/add-librarian/add-librarian.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -146,6 +147,7 @@ import { AddLibrarianComponent } from './home/main-screen/add-librarian/add-libr
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
