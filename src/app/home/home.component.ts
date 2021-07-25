@@ -19,7 +19,11 @@ export class HomeComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   onTest() {
-    this.http.get<any[]>(config.apiUrl + '/test/hello').subscribe(data => {
+    const current = new Date();
+    const timestamp = current.getTime();
+    console.log(current);
+    // console.log(Date.now());
+    this.http.get<any[]>(config.apiUrl + '/test/nice').subscribe(data => {
       console.log(data);
     }, error => {
       console.log(error);

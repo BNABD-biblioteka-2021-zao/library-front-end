@@ -25,7 +25,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
-        return this.handle401Error(request, next);
+          return this.handle401Error(request, next);
       } else {
         return throwError(error);
       }
@@ -36,7 +36,7 @@ export class TokenInterceptor implements HttpInterceptor {
   private addToken(request: HttpRequest<any>, token: string) {
     return request.clone({
       setHeaders: {
-        'Authorization': `Bearer ${token}`
+         'Authorization': `Bearer ${token}`
       }
     });
   }

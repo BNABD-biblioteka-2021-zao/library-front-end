@@ -67,7 +67,7 @@ export class AuthService {
 
   // tslint:disable-next-line:typedef
   refreshToken() {
-    return this.http.post<any>(`${config.apiSecurityUrl}/oauth/access_token`, {
+    return this.http.post<any>(`${config.apiSecurityUrl }/oauth/access_token`, {
       'grant_type' : 'refresh_token',
       'refresh_token' : this.getRefreshToken()
     }).pipe(tap((tokens: Tokens) => {

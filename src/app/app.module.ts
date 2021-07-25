@@ -62,8 +62,8 @@ import { OverlayModule} from '@angular/cdk/overlay';
 import {HttpClientModule} from '@angular/common/http';
 import {AddBookComponent} from './home/main-screen/add-book/add-book.component';
 import { AddCopyComponent } from './home/main-screen/add-copy/add-copy.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthModule } from "./security/auth.module";
+import { AddLibrarianComponent } from './home/main-screen/add-librarian/add-librarian.component';
+
 
 
 @NgModule({
@@ -74,7 +74,8 @@ import { AuthModule } from "./security/auth.module";
     RegisterComponent,
     MainScreenComponent,
     AddBookComponent,
-    AddCopyComponent
+    AddCopyComponent,
+    AddLibrarianComponent
   ],
   entryComponents: [AddBookComponent],
   imports: [
