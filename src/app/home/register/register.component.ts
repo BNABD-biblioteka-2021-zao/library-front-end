@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   form: FormGroup;
-  baseUrl =  'localhost:8092/api/v1/auth/register';
+  baseUrl =  'http://localhost:8092/api/v1/auth/register';
 
   constructor(
     private formBuilder: FormBuilder,

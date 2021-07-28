@@ -1,22 +1,22 @@
 <div class="main_content">
   <h3>Dodaj kopię książki</h3>
   <mat-form-field class="title">
-    <input class="input_field" matInput placeholder="ISBN:" autocomplete="off" maxlength="13" type="number" >
+    <input class="input_field" matInput placeholder="ISBN:" autocomplete="off" maxlength="13" type="number" id="isbn">
   </mat-form-field>
   <br>
   <mat-form-field class="title">
-    <input class="input_field" matInput placeholder="Liczba stron:" autocomplete="off" type="number">
+    <input class="input_field" matInput placeholder="Liczba stron:" autocomplete="off" type="number" id="page_amount">
   </mat-form-field>
   <br>
   <mat-form-field class="title">
-    <input class="input_field" matInput placeholder="Data wydania:" autocomplete="off">
+    <input class="input_field" matInput placeholder="Data wydania:" autocomplete="off" id="publish_date">
   </mat-form-field>
   <br>
   <mat-form-field class="title">
-    <input class="input_field" matInput placeholder="Wydawca:" autocomplete="off">
+    <input class="input_field" matInput placeholder="Wydawca:" autocomplete="off" id="publisher">
   </mat-form-field>
   <br>
-  <button mat-button class="button_add">
+  <button mat-button class="button_add" (click)="onAddBookCopy()">
     <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>Dodaj kopię
   </button>
 </div>
