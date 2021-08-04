@@ -15,12 +15,23 @@
   font-weight: 600;
 }
 
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
 
 .toolbar #add-book{
   margin: 0 8px;
   color: white;
 }
 
+.lists{
+  margin-left: 20px;
+  width: 150px;
+}
+.menu-button{
+  width: 150px;
+}
 
 .content {
   display: flex;
@@ -37,6 +48,10 @@ svg.material-icons {
 }
 
 table {
+  width: 100%;
+}
+
+.tab{
   width: 200%;
 }
 

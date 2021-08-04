@@ -5,6 +5,13 @@ import {AddCopyComponent} from './add-copy/add-copy.component';
 import {AuthService} from '../../security/auth.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Book} from '../../models/book';
+import {config} from '../../config';
+import {BookCopy} from '../../models/bookcopy';
+import {catchError} from 'rxjs/operators';
+import {error} from '@angular/compiler/src/util';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-main-screen',
@@ -12,14 +19,20 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./main-screen.component.css']
 })
 export class MainScreenComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  displayedColumnsBook: string[] = ['id', 'author', 'descr', 'genre', 'title', 'action'];
+  displayedColumnsBookCopy: string[] = ['id', 'isbn', 'page_amount', 'publish_date', 'publisher', 'book_id', 'action'];
+
+  book: any;
+  bookCopy: any;
+  bookList = false;
+  bookCopiesList = false;
 
   constructor(
     public dialog: MatDialog,
     private authService: AuthService,
     private http: HttpClient,
-    private router: Router) {
+    private router: Router,
+    private _snackBar: MatSnackBar) {
   }
 
 
@@ -41,25 +54,75 @@ export class MainScreenComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  public getBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(config.apiBookUrl + '/all');
+  }
+
+  getBookCopies(): Observable<BookCopy[]> {
+    return this.http.get<BookCopy[]>(config.apiBookCopyUrl + '/all');
+  }
+
+  // tslint:disable-next-line:typedef
+  onBooksList() {
+    this.getBooks().subscribe(value => {
+      this.book = value;
+      console.log(value);
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  bookListShow(){
+    this.bookList = true;
+    this.bookCopiesList = false;
+  }
+
+  // tslint:disable-next-line:typedef
+  onBookCopiesList() {
+    this.getBookCopies().subscribe(value => {
+      this.bookCopy = value;
+      console.log(value);
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  bookCopiesListShow() {
+    this.bookCopiesList = true;
+    this.bookList = false;
+  }
+
+  // tslint:disable-next-line:typedef
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.book.filter = filterValue.trim().toLowerCase();
+    console.log('Filter', this.book);
+  }
+
+  // tslint:disable-next-line:typedef
+  deleteBookRow(id: any) {
+    this.http.delete(config.apiBookUrl + '/' + id)
+      .subscribe(response =>
+      {
+        console.log(id);
+        console.log(response);
+        location.reload();
+        // tslint:disable-next-line:no-shadowed-variable
+      }, (error) => {
+        openSnackBar(error);
+      });
+  }
+
+  // tslint:disable-next-line:typedef
+  editBookRow() {
+
+  }
+
+  // tslint:disable-next-line:typedef
+  updateBookRow(){
+
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
+
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
