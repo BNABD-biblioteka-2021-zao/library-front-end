@@ -1,6 +1,9 @@
+import { Book } from './book';
+
 export interface BookCopy {
   isbn: string;
-  page_amount: string;
-  publish_date: string;
+  pageAmount: string;
+  publishDate: string;
   publisher: string;
+  book: Book[];
 }

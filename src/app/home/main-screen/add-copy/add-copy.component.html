@@ -9,11 +9,24 @@
   </mat-form-field>
   <br>
   <mat-form-field class="title">
-    <input class="input_field" matInput placeholder="Data wydania:" autocomplete="off" id="publish_date">
+    <input class="input_field" matInput placeholder="Data wydania:" autocomplete="off" type="date" id="publish_date">
   </mat-form-field>
   <br>
   <mat-form-field class="title">
     <input class="input_field" matInput placeholder="Wydawca:" autocomplete="off" id="publisher">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput placeholder="Identyfikator książki:"
+           id="book_id"
+           [matAutocomplete]="auto"
+           [formControl]="booksCtrl">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let book of books; index as i;" [value]="book.title">
+        <span>{{book.title}} | {{book.author}}</span>
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
   <br>
   <button mat-button class="button_add" (click)="onAddBookCopy()">
