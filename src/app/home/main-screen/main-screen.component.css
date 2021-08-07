@@ -13,6 +13,7 @@
   background-color: #1976d2;
   color: white;
   font-weight: 600;
+  width: 100%;
 }
 
 .mat-form-field {
@@ -30,7 +31,7 @@
   width: 150px;
 }
 .menu-button{
-  width: 150px;
+  width: 200px;
 }
 
 .content {

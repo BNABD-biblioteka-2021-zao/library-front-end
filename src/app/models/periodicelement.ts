@@ -1,4 +1,4 @@
-export interface Book {
+export interface PeriodicElement {
   id: bigint;
   author: string;
   description: string;
