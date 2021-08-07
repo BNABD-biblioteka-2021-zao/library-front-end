@@ -5,5 +5,6 @@ export interface BookCopy {
   pageAmount: string;
   publishDate: string;
   publisher: string;
+  status: string;
   book: Book[];
 }

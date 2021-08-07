@@ -62,7 +62,7 @@ import { OverlayModule} from '@angular/cdk/overlay';
 import {HttpClientModule} from '@angular/common/http';
 import {AddBookComponent} from './home/main-screen/add-book/add-book.component';
 import { AddCopyComponent } from './home/main-screen/add-copy/add-copy.component';
-import { AddLibrarianComponent } from './home/main-screen/add-librarian/add-librarian.component';
+import {DatePipe} from '@angular/common';
 
 
 
@@ -75,7 +75,6 @@ import { AddLibrarianComponent } from './home/main-screen/add-librarian/add-libr
     MainScreenComponent,
     AddBookComponent,
     AddCopyComponent,
-    AddLibrarianComponent
   ],
   entryComponents: [AddBookComponent],
   imports: [
@@ -149,7 +148,7 @@ import { AddLibrarianComponent } from './home/main-screen/add-librarian/add-libr
     ScrollingModule,
     AuthModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
