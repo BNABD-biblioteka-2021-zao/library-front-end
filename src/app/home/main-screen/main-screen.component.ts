@@ -20,12 +20,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {FormControl} from '@angular/forms';
 import {BorrowDialogComponent} from './borrow-dialog/borrow-dialog.component';
-
-
-// tslint:disable-next-line:typedef
-function openSnackBar(message: string, action: string) {
-  this._snackBar.open(message, action);
-}
+import {EditBookComponent} from './edit-book/edit-book.component';
+import {EditBookCopyComponent} from './edit-book-copy/edit-book-copy.component';
+import {BookCopySource} from '../../models/bookCopySource';
 
 @Component({
   selector: 'app-main-screen',
@@ -42,39 +39,24 @@ function openSnackBar(message: string, action: string) {
 })
 export class MainScreenComponent implements OnInit {
   displayedColumnsBook: string[] = ['id', 'author', 'genre', 'title', 'action'];
-  displayedColumnsBookCopy: string[] = ['id', 'isbn', 'page_amount', 'publish_date', 'publisher', 'status', 'action'];
+  displayedColumnsBookCopy: string[] = ['id', 'isbn', 'page_amount', 'publish_date', 'publisher', 'status', 'book', 'action'];
   displayedBorrowings: string[] = ['id', 'borrow_end_time', 'borrow_start_time', 'reservation_time', 'status', 'book_copy_id', 'user_id', 'action'];
   expandedElement: PeriodicElement | null;
-
-  @ViewChild('bookId') bookId: ElementRef;
-  @ViewChild('description') description: ElementRef;
-  @ViewChild('bookCopyID') bookCopyID: ElementRef;
-  @ViewChild('statusBookCopy') statusBookCopy: ElementRef;
 
   user: User =  { } as User;
   users: any;
   book: PeriodicElement[];
-  bookPut: Book =  { } as Book;
   bookCopy: any;
-  bookCopyPut: BookCopy =  { } as BookCopy;
   borrowing: Borrowings =  { } as Borrowings;
-  myBorrowing: any;
   allBorrowing: any;
-  bookCopy2BookCopyEdit: any = [];
+  bookId: any;
 
   bookList = false;
   bookCopiesList = false;
-  myBorrowingList = false;
   allBorrowingList = false;
-  librarianButton = true;
-  userButton = true;
-  editBookButton = true;
-  saveEditedBookButton = false;
-  editBookCopyButton = true;
-  saveEditedBookCopyButton = false;
-  isEditable = true;
-  isEditableBookCopy = true;
-  isDescrEditable = false;
+  librarianButton = false;
+  userButton = false;
+  reservationButton = true;
 
 
   currDate: any;
@@ -97,15 +79,18 @@ export class MainScreenComponent implements OnInit {
       // @ts-ignore
       this.user = value;
       console.log(this.user);
+      // tslint:disable-next-line:triple-equals
+      if (this.user.role == 'ROLE_LIBRARIAN'){
+        this.librarianButton = true;
+        console.log('ROLE_LIBRARIAN');
+      }else{
+        this.userButton = true;
+        console.log('ROLE_USER');
+      }
     });
     this.getAllUsers().subscribe(value => {
       // @ts-ignore
       this.users = value;
-    });
-
-    this.getBookCopies().subscribe(value => {
-      this.bookCopy2BookCopyEdit = value;
-      console.log(value);
     });
 
     const now = Date.now();
@@ -117,15 +102,7 @@ export class MainScreenComponent implements OnInit {
     this.endTime.setDate( this.endTime.getDate() + 30 );
     this.end = this.endTime.toString();
     this.end = this.pipe.transform(this.end , 'yyyy-MM-dd');
-      /*
-      // tslint:disable-next-line:triple-equals
-      if (this.user.role == 'ROLE_LIBRARIAN'){
-        this.librarianButton = true;
-        console.log('ROLE_LIBRARIAN');
-      }else{
-        this.userButton = true;
-        console.log('ROLE_USER');
-      }*/
+
   }
 
   // tslint:disable-next-line:typedef
@@ -142,6 +119,23 @@ export class MainScreenComponent implements OnInit {
   openBorrowDialog(id: any) {
     this.bookCopyId = id;
     this.dialog.open(BorrowDialogComponent, {data: {
+        bookCopyId: this.bookCopyId
+      }});
+  }
+
+  // tslint:disable-next-line:typedef
+  openEditBookDialog(id: any) {
+    this.bookId = id;
+    this.dialog.open(EditBookComponent, {data: {
+        bookCopyId: this.bookId
+      }});
+  }
+
+  // tslint:disable-next-line:typedef
+  openEditBookCopyDialog(id: any) {
+    this.bookCopyId = id;
+    console.log('editID', this.bookCopyId);
+    this.dialog.open(EditBookCopyComponent, {data: {
         bookCopyId: this.bookCopyId
       }});
   }
@@ -196,7 +190,7 @@ export class MainScreenComponent implements OnInit {
   onBookCopiesList() {
     this.getBookCopies().subscribe(value => {
       this.bookCopy = value;
-      console.log(value);
+      console.log('ccccc', value);
     });
   }
 
@@ -253,46 +247,13 @@ export class MainScreenComponent implements OnInit {
         // tslint:disable-next-line:no-shadowed-variable
       }, (error) => {
         console.log(error);
-        openSnackBar('123', '123');
+        this.openSnackBar('Nie można usunąć książki posiadającej kopie', 'Usuń najpierw kopie');
       });
   }
 
   // tslint:disable-next-line:typedef
-  editBookRow() {
-    this.editBookButton = false;
-    this.saveEditedBookButton = true;
-    this.isEditable = false;
-    this.isDescrEditable = true;
-  }
-
-  // tslint:disable-next-line:typedef
-  saveEditedBookRow(id: any, title: any) {
-    this.editBookButton = true;
-    this.saveEditedBookButton = false;
-    this.isEditable = true;
-    this.isDescrEditable = false;
-    // @ts-ignore
-    // this.bookPut.id = this.bookId.nativeElement.innerHTML;
-    this.bookPut.id = id;
-    // @ts-ignore
-    // this.bookPut.title = document.getElementById('title').value;
-    this.bookPut.title = title;
-    // @ts-ignore
-    this.bookPut.genre = document.getElementById('genre').value;
-    // @ts-ignore
-    this.bookPut.author = document.getElementById('author').value;
-    // @ts-ignore
-    // this.bookPut.description = this.description.nativeElement.innerHTML;
-    this.bookPut.description = this.user;
-    console.log('book', this.bookPut);
-
-    this.http.put(config.apiBookUrl,
-      this.bookPut
-    ).subscribe((value) => {
-      console.log(value);
-      location.reload();
-    });
-
+  private openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 
   // tslint:disable-next-line:typedef
@@ -305,51 +266,8 @@ export class MainScreenComponent implements OnInit {
         location.reload();
         // tslint:disable-next-line:no-shadowed-variable
       }, (error) => {
-        // openSnackBar(error);
+        this.openSnackBar('Nie można usunąć wypożyczonego egzemplarza książki', '');
       });
-  }
-
-  // tslint:disable-next-line:typedef
-  editBookCopyRow() {
-    this.editBookCopyButton = false;
-    this.saveEditedBookCopyButton = true;
-    this.isEditableBookCopy = false;
-  }
-
-  // tslint:disable-next-line:typedef
-  saveEditedBookCopyRow() {
-    this.editBookCopyButton = true;
-    this.saveEditedBookCopyButton = false;
-    this.isEditableBookCopy = true;
-
-    // @ts-ignore
-    this.bookCopyPut.id = this.bookCopyID.nativeElement.innerHTML;
-    // @ts-ignore
-    this.bookCopyPut.isbn = document.getElementById('isbnElement').value;
-    // @ts-ignore
-    this.bookCopyPut.pageAmount = document.getElementById('pageAmount').value;
-    // @ts-ignore
-    this.bookCopyPut.publishDate = document.getElementById('publishDate').value;
-    // @ts-ignore
-    this.bookCopyPut.publisher = document.getElementById('publisher').value;
-    // @ts-ignore
-    this.bookCopyPut.status = this.statusBookCopy.nativeElement.innerHTML;
-
-    for (const bookCopy of this.bookCopy2BookCopyEdit) {
-      // tslint:disable-next-line:triple-equals
-      if (bookCopy.id == this.bookCopyPut.id){
-        this.bookCopyPut.bookId = bookCopy.bookId;
-        console.log('BookID', this.bookCopyPut.bookId);
-      }
-    }
-    console.log('bookCopy', this.bookCopyPut);
-
-    this.http.put(config.apiBookCopyUrl,
-      this.bookCopyPut
-    ).subscribe((value) => {
-      console.log(value);
-      location.reload();
-    });
   }
 
   // tslint:disable-next-line:typedef
@@ -381,7 +299,7 @@ export class MainScreenComponent implements OnInit {
         location.reload();
         // tslint:disable-next-line:no-shadowed-variable
       }, (error) => {
-        // openSnackBar(error);
+        this.openSnackBar('Nie można usunąć rezerwacji ze statusem "borrowed"', '');
       });
   }
 
@@ -438,16 +356,5 @@ export class MainScreenComponent implements OnInit {
         location.reload();
       });
     }
-
-  }
-/*
-  // tslint:disable-next-line:typedef
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
-  }*/
-
-  // tslint:disable-next-line:typedef
-  onNameChange(val) {
-    console.log('Changed', val);
   }
 }

@@ -64,6 +64,8 @@ import {AddBookComponent} from './home/main-screen/add-book/add-book.component';
 import { AddCopyComponent } from './home/main-screen/add-copy/add-copy.component';
 import {DatePipe} from '@angular/common';
 import { BorrowDialogComponent } from './home/main-screen/borrow-dialog/borrow-dialog.component';
+import { EditBookComponent } from './home/main-screen/edit-book/edit-book.component';
+import { EditBookCopyComponent } from './home/main-screen/edit-book-copy/edit-book-copy.component';
 
 
 
@@ -77,6 +79,8 @@ import { BorrowDialogComponent } from './home/main-screen/borrow-dialog/borrow-d
     AddBookComponent,
     AddCopyComponent,
     BorrowDialogComponent,
+    EditBookComponent,
+    EditBookCopyComponent,
   ],
   entryComponents: [AddBookComponent],
   imports: [

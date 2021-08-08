@@ -1,0 +1,44 @@
+<div class="main_content">
+  <h3>Edytuj dane książki</h3>
+  <span>Id książki: {{this.bookInput2Dialog.id}}</span>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput
+           placeholder="Autor:"
+           autocomplete="off"
+           id="author"
+           value="{{this.bookInput2Dialog.author}}">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput
+           placeholder="Kategoria:"
+           autocomplete="off"
+           id="genre"
+           value="{{this.bookInput2Dialog.genre}}">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput
+           placeholder="Tytuł:"
+           autocomplete="off"
+           id="title"
+           value="{{this.bookInput2Dialog.title}}">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="textarea">
+    <textarea class="textarea2"
+              matInput
+              placeholder="Opis:"
+              autocomplete="off"
+              id="description"
+              value="{{this.bookInput2Dialog.description}}"></textarea>
+  </mat-form-field>
+  <br>
+  <button mat-button class="button_add" (click)="saveEditedBook()">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon> Zastosuj zmiany
+  </button>
+</div>

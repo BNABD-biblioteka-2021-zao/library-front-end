@@ -1,0 +1,21 @@
+.main_content {
+  height: 700px;
+  width: 600px;
+}
+
+.title{
+  width: 550px;
+}
+
+.button_add{
+  margin-top: 80px;
+  margin-left: 400px;
+}
+
+.textarea{
+  height: 200px;
+  width: 550px;
+}
+.textarea2{
+  height: 200px;
+}
