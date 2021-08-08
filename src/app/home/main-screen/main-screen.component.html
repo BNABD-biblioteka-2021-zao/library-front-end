@@ -29,8 +29,12 @@
     <span class="listHead">Lista ksiażek  </span>
     <br>
     <br>
+    <mat-form-field appearance="standard">
+      <mat-label>Szukaj</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
     <table mat-table
-           [dataSource]="book" multiTemplateDataRows
+           [dataSource]="dataSource" multiTemplateDataRows
            class="mat-elevation-z8">
 
       <ng-container matColumnDef="id">
@@ -119,7 +123,11 @@
   <span class="listHead">Lista egzemplarzy ksiażek  </span>
   <br>
   <br>
-  <table mat-table [dataSource]="bookCopy" class="mat-elevation-z8" *ngIf="bookCopiesList">
+  <mat-form-field appearance="standard">
+    <mat-label>Szukaj</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="bookCopiesList">
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -219,7 +227,11 @@
     <span class="listHead">{{this.borrowingHeader}}  </span>
     <br>
     <br>
-    <table mat-table [dataSource]="allBorrowing" class="mat-elevation-z8" *ngIf="allBorrowingList">
+    <mat-form-field appearance="standard">
+      <mat-label>Szukaj</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="allBorrowingList">
 
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
