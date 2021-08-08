@@ -7,25 +7,13 @@
     <button mat-menu-item class="menu-button" (click)="onBooksList(); bookListShow()">Książki</button>
     <button mat-menu-item class="menu-button" (click)="onBookCopiesList(); bookCopiesListShow()" >Egzemplarze książek</button>
     <button mat-menu-item class="menu-button" (click)="onAllBorrowingsList(); allBorrowingListShow()" *ngIf="librarianButton">Wypożyczenia</button>
-    <button mat-menu-item class="menu-button" (click)="onMyBorrowingsList(); myBorrowingListShow()" *ngIf="userButton">Moje wypożyczenia</button>
+    <button mat-menu-item class="menu-button" (click)="onMyBorrowingsList(); allBorrowingListShow()" *ngIf="userButton">Moje wypożyczenia</button>
   </mat-menu>
   <button mat-button (click)="openAddBookDialog()" *ngIf="librarianButton">
     <mat-icon aria-hidden="false" aria-label="Example home icon">book</mat-icon> Dodaj książkę
   </button>
   <button mat-button (click)="openCopyBookDialog()" *ngIf="librarianButton">
     <mat-icon aria-hidden="false" aria-label="Example home icon">content_copy</mat-icon> Dodaj kopię
-  </button>
-  <button mat-button (click)="hello()">
-    <mat-icon aria-hidden="false" aria-label="Example home icon">check</mat-icon> hello
-  </button>
-  <button mat-button (click)="nice()">
-    <mat-icon aria-hidden="false" aria-label="Example home icon">check</mat-icon> nice
-  </button>
-  <button mat-button (click)="helloUser()">
-    <mat-icon aria-hidden="false" aria-label="Example home icon">check</mat-icon>hello user
-  </button>
-  <button mat-button (click)="helloLibr()">
-    <mat-icon aria-hidden="false" aria-label="Example home icon">check</mat-icon> hello librarian
   </button>
   <div class="spacer"></div>
   Zalogowano jako: {{this.user.name}}
@@ -38,27 +26,60 @@
 
 <!--  Ksiazki-->
   <div *ngIf="bookList" class="tab">
+    <span class="listHead">Lista ksiażek  </span>
+    <button mat-button (click)="editBookRow()" *ngIf="editBookButton">
+      <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Tryb edycji">mode_edit</mat-icon>
+    </button>
+    <br>
+    <br>
     <table mat-table
            [dataSource]="book" multiTemplateDataRows
            class="mat-elevation-z8">
-      <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumnsBook">
-        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element" #bookId>{{element.id}}</td>
       </ng-container>
 
-      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef> Autor </th>
+        <td mat-cell *matCellDef="let element" >
+          <input matInput type="text" value="{{element.author}}" autocomplete="off" [readonly]="isEditable" id="author" class="editable" (click)="$event.stopPropagation();">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="genre">
+        <th mat-header-cell *matHeaderCellDef> Gatunek </th>
+        <td mat-cell *matCellDef="let element">
+          <input matInput type="text" value="{{element.genre}}" autocomplete="off" [readonly]="isEditable" id="genre" class="editable" (click)="$event.stopPropagation();">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Tytuł </th>
+        <td mat-cell *matCellDef="let element">
+          <input matInput type="text" value=" {{element.title}}" autocomplete="off" [readonly]="isEditable" id="title" class="editable" (click)="$event.stopPropagation();">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Akcja </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="deleteBookRow(element.id)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Usuń wiersz">delete</mat-icon>
+          </button>
+          <button mat-button (click)="saveEditedBookRow(element.id, element.title)" *ngIf="saveEditedBookButton">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Zapisz zmiany">save</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsBook.length">
           <div class="example-element-detail"
                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div class="example-element-diagram">
-              <div class="example-element-position"> {{element.id}} </div>
-              <div class="example-element-symbol"> {{element.author}} </div>
-              <div class="example-element-name"> {{element.genre}} </div>
-              <div class="example-element-weight"> {{element.title}} </div>
-            </div>
             <div class="example-element-description">
-              {{element.description}}
+              <div matInput #description class="editable" [contentEditable]="isDescrEditable" (input)="onNameChange($event.target.innerHTML)" >{{element.description}}</div>
             </div>
           </div>
         </td>
@@ -72,6 +93,7 @@
       </tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
+
   </div>
 
 <!--Kopie ksiazek-->
@@ -82,57 +104,71 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Wyszukaj..." autocomplete="off" #input>
   </mat-form-field>
   -->
+  <span class="listHead">Lista egzemplarzy ksiażek  </span>
+  <button mat-button (click)="editBookCopyRow()" *ngIf="editBookCopyButton">
+    <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Edytuj wiersz">mode_edit</mat-icon>
+  </button>
+  <br>
+  <br>
   <table mat-table [dataSource]="bookCopy" class="mat-elevation-z8" *ngIf="bookCopiesList">
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <td mat-cell *matCellDef="let element" #bookCopyID> {{element.id}} </td>
     </ng-container>
 
     <ng-container matColumnDef="isbn">
       <th mat-header-cell *matHeaderCellDef> ISBN </th>
-      <td mat-cell *matCellDef="let element"> {{element.isbn}} </td>
+      <td mat-cell *matCellDef="let element">
+        <input matInput type="text" value=" {{element.isbn}}" autocomplete="off" [readonly]="isEditableBookCopy" id="isbnElement" class="editable">
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="page_amount">
       <th mat-header-cell *matHeaderCellDef> Liczba stron </th>
-      <td mat-cell *matCellDef="let element"> {{element.pageAmount}} </td>
+      <td mat-cell *matCellDef="let element">
+        <input matInput type="text" value=" {{element.pageAmount}}" autocomplete="off" [readonly]="isEditableBookCopy" id="pageAmount" class="editable">
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="publish_date">
       <th mat-header-cell *matHeaderCellDef> Data publikacji </th>
-      <td mat-cell *matCellDef="let element"> {{element.publishDate}} </td>
+      <td mat-cell *matCellDef="let element">
+        <input matInput type="text" value=" {{element.publishDate}}" autocomplete="off" [readonly]="isEditableBookCopy" id="publishDate" class="editable">
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="publisher">
       <th mat-header-cell *matHeaderCellDef> Wydawca </th>
-      <td mat-cell *matCellDef="let element"> {{element.publisher}} </td>
+      <td mat-cell *matCellDef="let element">
+        <input matInput type="text" value=" {{element.publisher}}" autocomplete="off" [readonly]="isEditableBookCopy" id="publisher" class="editable">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element" #statusBookCopy> {{element.status}} </td>
     </ng-container>
 
 <!--    <ng-container matColumnDef="book_id">-->
 <!--      <th mat-header-cell *matHeaderCellDef> ID książki </th>-->
-<!--      <td mat-cell *matCellDef="let element"> {{element.book.id}} </td>-->
+<!--      <td mat-cell *matCellDef="let element"> {{element.bookId}} </td>-->
 <!--    </ng-container>-->
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-    </ng-container>
-
-          <ng-container matColumnDef="action">
+    <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef> Akcja </th>
             <td mat-cell *matCellDef="let element">
-              <button mat-button>
-                <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Edytuj wiersz">mode_edit</mat-icon>
-              </button>
-              <button mat-button>
+              <button mat-button (click)="deleteBookCopyRow(element.id)">
                 <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Usuń wiersz">delete</mat-icon>
+              </button>
+              <button mat-button (click)="saveEditedBookCopyRow()" *ngIf="saveEditedBookCopyButton">
+                <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Zapisz zmiany">save</mat-icon>
               </button>
               <button mat-button (click)="reservateBook(element.id)">
                 <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Zarezerwuj">book</mat-icon>
               </button>
-              <button mat-button (click)="confirmBorrow()">
-                <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Zatwierdź wypożyczenie">check_circle</mat-icon>
+              <button mat-button (click)="openBorrowDialog(element.id)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Wypożycz">check_circle</mat-icon>
               </button>
             </td>
           </ng-container>
@@ -149,7 +185,9 @@
 
 <!--  Wszystkie wypozyczenia-->
   <div *ngIf="allBorrowingList" class="tab">
-
+    <span class="listHead">{{this.borrowingHeader}}  </span>
+    <br>
+    <br>
     <table mat-table [dataSource]="allBorrowing" class="mat-elevation-z8" *ngIf="allBorrowingList">
 
       <ng-container matColumnDef="id">
@@ -183,22 +221,24 @@
       </ng-container>
 
       <ng-container matColumnDef="user_id">
-        <th mat-header-cell *matHeaderCellDef> ID użytkownika </th>
+        <th mat-header-cell *matHeaderCellDef> Użytkownik </th>
         <td mat-cell *matCellDef="let element"> {{element.user.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Usuń </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-button>
+          <button mat-button (click)="deleteReservation(element.id)">
             <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Usuń wiersz">delete</mat-icon>
+          </button>
+          <button mat-button (click)="confirmReservation(element.id, element.user.name, element.bookCopy, element.status)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" matTooltip="Zatwierdź rezerwację">check</mat-icon>
           </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedBorrowings"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedBorrowings;"></tr>
-
     </table>
   </div>
 </div>

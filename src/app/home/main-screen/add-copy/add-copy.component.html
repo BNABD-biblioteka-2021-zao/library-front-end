@@ -24,7 +24,7 @@
            [formControl]="booksCtrl">
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let book of books; index as i;" [value]="book.title">
-        <span>{{book.title}} | {{book.author}}</span>
+        <span>{{book.title}}   {{book.author}}</span>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

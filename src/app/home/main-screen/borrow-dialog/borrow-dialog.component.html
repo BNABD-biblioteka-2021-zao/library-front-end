@@ -1,0 +1,19 @@
+<div class="main_content">
+  <h3>Wypożycz</h3>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput placeholder="Użytkownk:"
+           id="userName"
+           [matAutocomplete]="auto"
+           [formControl]="usersCtrl">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let user of users; index as i;" [value]="user.name">
+        <span>{{user.name}} | {{user.email}}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <br>
+  <button mat-button class="button_add" (click)="onSaveBorrow()">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon> Zapisz wypożyczenie
+  </button>
+</div>

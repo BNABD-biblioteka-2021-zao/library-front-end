@@ -63,6 +63,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AddBookComponent} from './home/main-screen/add-book/add-book.component';
 import { AddCopyComponent } from './home/main-screen/add-copy/add-copy.component';
 import {DatePipe} from '@angular/common';
+import { BorrowDialogComponent } from './home/main-screen/borrow-dialog/borrow-dialog.component';
 
 
 
@@ -75,6 +76,7 @@ import {DatePipe} from '@angular/common';
     MainScreenComponent,
     AddBookComponent,
     AddCopyComponent,
+    BorrowDialogComponent,
   ],
   entryComponents: [AddBookComponent],
   imports: [
