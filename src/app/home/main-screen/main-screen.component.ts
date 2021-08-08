@@ -20,6 +20,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {FormControl} from '@angular/forms';
 import {BorrowDialogComponent} from './borrow-dialog/borrow-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 // tslint:disable-next-line:typedef
@@ -84,6 +85,8 @@ export class MainScreenComponent implements OnInit {
   bookCopyId: any;
   borrowingHeader: any;
 
+  dataSource;
+
   constructor(
     public dialog: MatDialog,
     private authService: AuthService,
@@ -126,6 +129,15 @@ export class MainScreenComponent implements OnInit {
         this.userButton = true;
         console.log('ROLE_USER');
       }*/
+  }
+
+  applyFilter(event: Event){
+    console.log("Filter");
+    const filterVal = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterVal.trim().toLowerCase();
+    console.log(filterVal);
+    console.log(this.dataSource.filter);
+    console.log(this.dataSource);
   }
 
   // tslint:disable-next-line:typedef
@@ -180,6 +192,7 @@ export class MainScreenComponent implements OnInit {
   onBooksList() {
     this.getBooks().subscribe(value => {
       this.book = value;
+      this.dataSource = new MatTableDataSource(value);
       console.log(value);
     });
   }
@@ -196,6 +209,7 @@ export class MainScreenComponent implements OnInit {
   onBookCopiesList() {
     this.getBookCopies().subscribe(value => {
       this.bookCopy = value;
+      this.dataSource = new MatTableDataSource(value);
       console.log(value);
     });
   }
@@ -213,6 +227,7 @@ export class MainScreenComponent implements OnInit {
     this.borrowingHeader = 'Lista wszystkich wypożyczeń';
     this.getAllBorrowing().subscribe(value => {
       this.allBorrowing = value;
+      this.dataSource = new MatTableDataSource(value);
       console.log(value);
     });
   }
