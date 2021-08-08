@@ -50,13 +50,14 @@ export class AddCopyComponent implements OnInit {
     this.bookcopy.publisher = document.getElementById('publisher').value;
     // @ts-ignore
     this.bookName = document.getElementById('book_id').value;
+
     console.log(this.bookName);
 
-    for (let book of this.books) {
+    for (const book of this.books) {
       // tslint:disable-next-line:triple-equals
       if (book.title == this.bookName){
-        this.bookcopy.book = book;
-        console.log('Book', this.bookcopy.book);
+        this.bookcopy.bookId = book.id;
+        console.log('Book', this.bookcopy.bookId);
       }
     }
 
