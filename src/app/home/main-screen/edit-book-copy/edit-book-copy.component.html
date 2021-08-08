@@ -1,0 +1,53 @@
+<div class="main_content">
+  <h3>Edytuj dane kopii książki</h3>
+  <span>Id kopii książki: {{this.data.bookCopyId}}</span>
+  <br>
+  <span>Tytuł książki: {{this.bookInput2Dialog.title}}</span>
+  <br>
+  <span>Autor: {{this.bookInput2Dialog.author}}</span>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput
+           placeholder="ISBN:"
+           autocomplete="off"
+           maxlength="13"
+           type="number"
+           value="{{this.bookCopy2BookCopyEdit.isbn}}"
+           id="isbn">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput
+           placeholder="Liczba stron:"
+           autocomplete="off"
+           type="number"
+           value="{{this.bookCopy2BookCopyEdit.pageAmount}}"
+           id="page_amount">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput
+           placeholder="Data wydania:"
+           autocomplete="off"
+           type="date"
+           value="{{this.bookCopy2BookCopyEdit.publishDate}}"
+           id="publish_date">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="title">
+    <input class="input_field"
+           matInput
+           placeholder="Wydawca:"
+           autocomplete="off"
+           value="{{this.bookCopy2BookCopyEdit.publisher}}"
+           id="publisher">
+  </mat-form-field>
+  <br>
+  <br>
+  <button mat-button class="button_add" (click)="saveEditedBookCopy()">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon> Zastosuj zmiany
+  </button>
+</div>
